@@ -11,18 +11,8 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -------------------------------------------------------------------
--- Auto-install paq-nvim package manager
-
-local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
-
-if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
-end
-
-require "paq" {
-  "savq/paq-nvim";
-}
-
+-- load plugins
+require('plugins')
 
 -------------------------------------------------------------------
 -- Settings
@@ -148,7 +138,7 @@ map('n', '<leader>w', ':bn<CR>')
 map('n', '<leader>x', ':bd<CR>')
 
 -- clear search highlights
-map('n', '<silent> <leader><space>', ':noh<cr>')
+map('n', '<leader><space>', ':noh<cr>', {silent = true})
 
 -- window switching
 map('n', '<C-j>', '<C-w>j')
@@ -162,12 +152,11 @@ map('v', '>', '>gv')
 
 cmd('nmap ; :')
 
---[[ may not be necessary depending on if I use nerdtree
 map('n', '<leader>nt', ':NERDTreeToggle<CR>')
 map('n', '<leader>nf', ':NERDTreeFind %<CR>')
+
 map('n', '<leader>p', ':FZF<CR>')
 map('n', '<leader>P', ':FZF!<CR>')
-]]
 
 
 -- easy search/replace
