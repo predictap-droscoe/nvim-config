@@ -17,6 +17,7 @@ require('plugins')
 -------------------------------------------------------------------
 -- Settings
 
+cmd([[colorscheme jellybeans]])
 
 -- Copy/Paste/Cut
 cmd([[if has('unnamedplus')
@@ -50,7 +51,7 @@ opt.fileformats = {'unix', 'dos', 'mac'}
 
 -- some visuals
 opt.ruler = true
-opt.rnu = true
+opt.number = true
 opt.mousemodel = "popup"
 -- opt.t_Co = 256
 opt.laststatus = 2
@@ -63,7 +64,7 @@ opt.title = true
 opt.titleold = 'Terminal'
 opt.titlestring='%F'
 
-opt.statusline="%F%m%r%h%w%=(%{&ff}/%Y) (line %l/%L, col %c) "
+-- opt.statusline="%F%m%r%h%w%=(%{&ff}/%Y) (line %l/%L, col %c) "
 
 -- Make search case insensitive, but become sensitive if an upper case
 -- character is used.
@@ -175,4 +176,6 @@ map('n', '<leader>cc', ':ColorClear<cr>')
 map('n', '<leader>sk', '[{lv]}k:sort i<cr>')
 
 
+-- fzf specific, consider moving to dedicated module
+map('n', '<leader>ag', ':Ag<cr>')
 

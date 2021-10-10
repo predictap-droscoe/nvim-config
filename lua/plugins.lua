@@ -19,5 +19,27 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use '9mm/vim-closer'
 
+  use 'junegunn/fzf'
+  use 'junegunn/fzf.vim'
+
+  use 'nanotech/jellybeans.vim'
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = 'ryanoasis/vim-devicons',
+    config = function ()
+      local jellybeans = require'lualine.themes.jellybeans'
+      local white = '#d1d1d1'
+      jellybeans.normal.c.fg = white
+      require('lualine').setup({
+        options = {theme = jellybeans},
+        extensions = {'fzf', 'nerdtree'},
+        tabline = {lualine_c={'filename'}
+      }})
+    end
+  }
+
+  use 'airblade/vim-gitgutter'
+  use 'tpope/vim-fugitive'
+
 
 end)
