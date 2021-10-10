@@ -20,11 +20,7 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'rstacruz/vim-closer'
 
-  use {'junegunn/fzf',
-    configure = function()
-      vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag -g ""']])
-    end
-  }
+  use 'junegunn/fzf'
   use 'junegunn/fzf.vim'
 
   use 'nanotech/jellybeans.vim'
