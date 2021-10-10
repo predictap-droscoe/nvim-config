@@ -27,19 +27,21 @@ return require('packer').startup(function()
 
   use 'nanotech/jellybeans.vim'
   use {
-    'hoob3rt/lualine.nvim',
-    requires = 'ryanoasis/vim-devicons',
-    config = function ()
-      local jellybeans = require'lualine.themes.jellybeans'
-      local white = '#d1d1d1'
-      jellybeans.normal.c.fg = white
-      require('lualine').setup({
-        options = {theme = jellybeans},
-        extensions = {'fzf', 'nerdtree'},
-        tabline = {lualine_c={'filename'}
-        }})
+    'vim-airline/vim-airline',
+    config = function()
+      vim.cmd([[
+" vim-airline
+let g:airline_theme = 'jellybeans'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#tabline#ignore_bufadd_pat='!|defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
+      ]])
     end
   }
+  use 'vim-airline/vim-airline-themes'
 
   use 'airblade/vim-gitgutter'
 

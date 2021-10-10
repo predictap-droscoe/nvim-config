@@ -64,7 +64,7 @@ opt.title = true
 opt.titleold = 'Terminal'
 opt.titlestring='%F'
 
--- opt.statusline="%F%m%r%h%w%=(%{&ff}/%Y) (line %l/%L, col %c) "
+opt.statusline="%F%m%r%h%w%=(%{&ff}/%Y) (line %l/%L, col %c) "
 
 -- Make search case insensitive, but become sensitive if an upper case
 -- character is used.
