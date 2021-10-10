@@ -76,13 +76,10 @@ return require('packer').startup(function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      local servers = { 'pyright' }
       local nvim_lsp = require('lspconfig')
-      for _, lsp in ipairs(servers) do
-        nvim_lsp[lsp].setup {
-          capabilities = capabilities,
-        }
-      end
+      nvim_lsp.pyright.setup({
+        capabilities = capabilities
+      })
       -- Set completeopt to have a better completion experience
       vim.o.completeopt = 'menu,menuone,noselect'
       -- luasnip setup
