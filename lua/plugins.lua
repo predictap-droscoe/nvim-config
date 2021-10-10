@@ -1,5 +1,7 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
+
+
 return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -17,13 +19,18 @@ return require('packer').startup(function()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-endwise'
   use 'rstacruz/vim-closer'
+  use 'airblade/vim-gitgutter'
 
+  -- fuzzy finding
   use 'junegunn/fzf'
   use 'junegunn/fzf.vim'
 
+  -- colorscheme
   use 'nanotech/jellybeans.vim'
+
   use {
     'vim-airline/vim-airline',
+    requires = 'vim-airline/vim-airline-themes',
     config = function()
       vim.g["airline_theme"] = 'jellybeans'
       vim.g["airline#extensions#syntastic#enabled"] = 1
@@ -34,9 +41,7 @@ return require('packer').startup(function()
       vim.g["airline#extensions#tabline#ignore_bufadd_pat"] = '!|nerd_tree|undotree'
     end
   }
-  use 'vim-airline/vim-airline-themes'
 
-  use 'airblade/vim-gitgutter'
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -56,28 +61,53 @@ return require('packer').startup(function()
 
   use {
     'neovim/nvim-lspconfig',
-    config = function()
-      require('lspconfig').pyright.setup {}
+    requires = 'hrsh7th/cmp-nvim-lsp',
+    config = function ()
+      local function map(mode, lhs, rhs, opts)
+        local options = {noremap = true, silent=true}
+        if opts then options = vim.tbl_extend('force', options, opts) end
+        vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+      end
+
+      -- See `:help vim.lsp.*` for documentation on any of the below functions
+      map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+      map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+      map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+      map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+      map('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+      map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+      map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+      map('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+      map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+      map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+      map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+      map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+      map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+      map('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+
+      local lspconfig = require('lspconfig')
+      local servers = { 'pyright', 'rust_analyzer', 'tsserver', 'tflint', 'dockerls' }
+      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      for _, lsp in ipairs(servers) do
+        lspconfig[lsp].setup {
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150,
+          }
+        }
+      end
+
+      lspconfig.html.setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+      }
     end
   }
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-buffer'
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-  use {'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
-    requires = 'L3MON4D3/LuaSnip',
+  use {'hrsh7th/nvim-cmp',
+    requires = {'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', 'hrsh7th/cmp-buffer'},
     config = function()
-      -- Add additional capabilities supported by nvim-cmp
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-      -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      local lspconfig = require('lspconfig')
-      lspconfig.pyright.setup({
-        capabilities = capabilities
-      })
-      lspconfig.tsserver.setup({
-        capabilities = capabilities
-      })
       -- Set completeopt to have a better completion experience
       vim.o.completeopt = 'menu,menuone,noselect'
       -- luasnip setup
