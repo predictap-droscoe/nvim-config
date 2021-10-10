@@ -66,32 +66,34 @@ return require('packer').startup(function()
     end
   }
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+  use 'hrsh7th/cmp-buffer'
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use {'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
     requires = 'L3MON4D3/LuaSnip',
-    configure = function()
+    config = function()
       -- Add additional capabilities supported by nvim-cmp
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
       local servers = { 'pyright' }
+      local nvim_lsp = require('lspconfig')
       for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup {
           capabilities = capabilities,
         }
       end
       -- Set completeopt to have a better completion experience
-      vim.o.completeopt = 'menuone,noselect'
+      vim.o.completeopt = 'menu,menuone,noselect'
       -- luasnip setup
       local luasnip = require 'luasnip'
 
       -- nvim-cmp setup
       local cmp = require 'cmp'
-      cmp.setup {
+      cmp.setup({
         snippet = {
           expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            luasnip.lsp_expand(args.body)
           end,
         },
         mapping = {
@@ -128,7 +130,7 @@ return require('packer').startup(function()
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
         },
-      }
+      })
     end
   }
 end)
