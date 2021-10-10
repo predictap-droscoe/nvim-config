@@ -1,5 +1,10 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
+function map(mode, lhs, rhs, opts)
+  local options = {noremap = true, silent=true}
+  if opts then options = vim.tbl_extend('force', options, opts) end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
 
 
 return require('packer').startup(function()
@@ -63,11 +68,6 @@ return require('packer').startup(function()
     'neovim/nvim-lspconfig',
     requires = 'hrsh7th/cmp-nvim-lsp',
     config = function ()
-      local function map(mode, lhs, rhs, opts)
-        local options = {noremap = true, silent=true}
-        if opts then options = vim.tbl_extend('force', options, opts) end
-        vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-      end
 
       -- See `:help vim.lsp.*` for documentation on any of the below functions
       map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
@@ -157,6 +157,35 @@ return require('packer').startup(function()
           { name = 'buffer' }
         },
       })
+    end
+  }
+
+  use {'mhartington/formatter.nvim',
+    config = function ()
+      require('formatter').setup({
+        filetype = {
+    lua = {
+        -- luafmt
+        function()
+          return {
+            exe = "luafmt",
+            args = {"--indent-count", 2, "--stdin"},
+            stdin = true
+          }
+        end
+    },          rust = {
+            -- Rustfmt
+            function()
+              return {
+                exe = "rustfmt",
+                args = {"--emit=stdout"},
+                stdin = true
+              }
+            end
+          },
+        }
+      })
+      map('n', '<leader>f', ':Format<CR>')
     end
   }
 end)
