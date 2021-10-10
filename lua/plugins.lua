@@ -129,6 +129,7 @@ return require('packer').startup(function()
         sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
+          { name = 'buffer' }
         },
       })
     end
