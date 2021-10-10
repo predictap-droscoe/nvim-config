@@ -29,16 +29,13 @@ return require('packer').startup(function()
   use {
     'vim-airline/vim-airline',
     config = function()
-      vim.cmd([[
-" vim-airline
-let g:airline_theme = 'jellybeans'
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#tabline#ignore_bufadd_pat='!|defx|gundo|nerd_tree|startify|tagbar|undotree|vimfiler'
-      ]])
+      vim.g["airline_theme"] = 'jellybeans'
+      vim.g["airline#extensions#syntastic#enabled"] = 1
+      vim.g["airline#extensions#branch#enabled"] = 1
+      vim.g["airline#extensions#tabline#enabled"] = 1
+      vim.g["airline#extensions#tagbar#enabled"] = 1
+      vim.g["airline_skip_empty_sections"] = 1
+      vim.g["airline#extensions#tabline#ignore_bufadd_pat"] = '!|nerd_tree|undotree'
     end
   }
   use 'vim-airline/vim-airline-themes'
