@@ -78,8 +78,11 @@ let g:airline#extensions#tabline#ignore_bufadd_pat='!|defx|gundo|nerd_tree|start
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
       -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-      local nvim_lsp = require('lspconfig')
-      nvim_lsp.pyright.setup({
+      local lspconfig = require('lspconfig')
+      lspconfig.pyright.setup({
+        capabilities = capabilities
+      })
+      lspconfig.tsserver.setup({
         capabilities = capabilities
       })
       -- Set completeopt to have a better completion experience
