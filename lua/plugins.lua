@@ -3,6 +3,7 @@
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
+
 return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
@@ -19,7 +20,11 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use '9mm/vim-closer'
 
-  use 'junegunn/fzf'
+  use {'junegunn/fzf',
+    configure = function()
+      vim.cmd([[let $FZF_DEFAULT_COMMAND = 'ag -g ""']])
+    end
+  }
   use 'junegunn/fzf.vim'
 
   use 'nanotech/jellybeans.vim'
@@ -34,12 +39,27 @@ return require('packer').startup(function()
         options = {theme = jellybeans},
         extensions = {'fzf', 'nerdtree'},
         tabline = {lualine_c={'filename'}
-      }})
+        }})
     end
   }
 
   use 'airblade/vim-gitgutter'
   use 'tpope/vim-fugitive'
 
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+    config = function ()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = "maintained",
+        highlight = {
+          enable = true
+        },
+        indent = {
+          enable = true
+        }
+      })
+    end
+  }
 
 end)
