@@ -18,7 +18,7 @@ return require('packer').startup(function()
   use 'tpope/vim-commentary'
   use 'tpope/vim-sleuth'
   use 'tpope/vim-surround'
-  use '9mm/vim-closer'
+  use 'rstacruz/vim-closer'
 
   use {'junegunn/fzf',
     configure = function()
