@@ -168,6 +168,16 @@ return require("packer").startup(
     use {
       "mhartington/formatter.nvim",
       config = function()
+        local tsopts = {
+          -- prettier
+          function()
+            return {
+              exe = "npx prettier",
+              args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), "--single-quote"},
+              stdin = true
+            }
+          end
+        }
         require("formatter").setup(
           {
             filetype = {
@@ -200,7 +210,11 @@ return require("packer").startup(
                     stdin = true
                   }
                 end
-              }
+              },
+              javascript = tsopts,
+              javascriptreact = tsopts,
+              typescript = tsopts,
+              typescriptreact = tsopts
             }
           }
         )
