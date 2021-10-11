@@ -190,11 +190,42 @@ return require("packer").startup(
                     stdin = true
                   }
                 end
+              },
+              sh = {
+                -- Shell Script Formatter
+                function()
+                  return {
+                    exe = "shfmt",
+                    args = {"-i", 2},
+                    stdin = true
+                  }
+                end
               }
             }
           }
         )
         map("n", "<leader>f", ":Format<CR>")
+        vim.api.nvim_exec(
+          [[
+          augroup FormatAutogroup
+            autocmd!
+            autocmd BufWritePost *.ts,*.tsx,*.jsx,*.js,*.rs,*.lua FormatWrite
+          augroup END
+        ]],
+          true
+        )
+      end
+    }
+
+    use {
+      "phaazon/hop.nvim",
+      as = "hop",
+      config = function()
+        require "hop".setup {keys = "etovxqpdygfblzhckisuran"}
+        map("n", "<leader>hw", ":HopWord<CR>")
+        map("n", "<leader>hl", ":HopLine<CR>")
+        map("n", "<leader>hc", ":HopChar1<CR>")
+        map("n", "<leader>hb", ":HopChar2<CR>")
       end
     }
   end
