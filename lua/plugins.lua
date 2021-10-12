@@ -84,8 +84,6 @@ return require("packer").startup(
         map("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
         map("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
         map("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
-        map("n", "<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
-        map("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
 
         local lspconfig = require("lspconfig")
         local servers = {"pyright", "rust_analyzer", "tsserver", "tflint", "dockerls"}
