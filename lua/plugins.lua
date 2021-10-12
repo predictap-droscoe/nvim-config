@@ -240,5 +240,28 @@ return require("packer").startup(
         map("n", "<leader>hb", ":HopChar2<CR>")
       end
     }
+
+    use {
+      "dense-analysis/ale",
+      config = function()
+        es_fixers = {"prettier", "eslint"}
+        vim.g["ale_fixers"] = {
+          javascript = es_fixers,
+          javascriptreact = es_fixers,
+          typescript = es_fixers,
+          typescriptreact = es_fixers,
+          python = {"black"}
+        }
+        vim.g["ale_linters_ignore"] = {
+          javascript = {"tsserver", "jshint"},
+          javascriptreact = {"tsserver", "jshint"},
+          python = {"pylint"},
+          json = {"eslint"}
+        }
+        vim.g["ale_fix_on_save"] = 1
+        map("n", "]p", ":ALENext<CR>")
+        map("n", "[p", ":ALEPrevious<CR>")
+      end
+    }
   end
 )
