@@ -36,8 +36,13 @@ return require("packer").startup(
     use "airblade/vim-gitgutter"
 
     -- fuzzy finding
-    use "junegunn/fzf"
-    use "junegunn/fzf.vim"
+    use {
+      "junegunn/fzf.vim",
+      requires = "junegunn/fzf",
+      config = function()
+        map("n", "<leader>ag", ":Ag<cr>")
+      end
+    }
 
     -- colorscheme
     use "nanotech/jellybeans.vim"

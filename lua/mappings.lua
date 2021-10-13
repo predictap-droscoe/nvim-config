@@ -77,6 +77,3 @@ map('n', '<leader>cc', ':ColorClear<cr>')
 ]]
 -- sort object keys
 map("n", "<leader>sk", "[{lv]}k:sort i<cr>")
-
--- fzf specific, consider moving to dedicated module
-map("n", "<leader>ag", ":Ag<cr>")
