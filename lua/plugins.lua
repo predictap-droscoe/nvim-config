@@ -23,9 +23,16 @@ return require("packer").startup(
     use "tpope/vim-commentary"
     use "tpope/vim-sleuth"
     use "tpope/vim-surround"
-    use "tpope/vim-fugitive"
-    use "tpope/vim-endwise"
-    use "rstacruz/vim-closer"
+    use {
+      "tpope/vim-fugitive",
+      requires = {"tpope/vim-rhubarb"},
+      config = function()
+        map("n", "<leader>gb", ":Git blame<CR>")
+        map("n", "<leader>go", ":Gbrowse<CR>")
+        map("v", "<leader>go", ":Gbrowse<CR>")
+      end
+    }
+    use "jiangmiao/auto-pairs"
     use "airblade/vim-gitgutter"
 
     -- fuzzy finding
@@ -110,7 +117,7 @@ return require("packer").startup(
       requires = {"L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-buffer"},
       config = function()
         -- Set completeopt to have a better completion experience
-        vim.o.completeopt = "menu,menuone,noselect"
+        vim.o.completeopt = "menu,menuone,preview"
         -- luasnip setup
         local luasnip = require "luasnip"
 
