@@ -11,6 +11,7 @@ endif
 ]])
 
 -- confirm instead of erroring when exiting after not viewing all opened files
+opt.confirm = true
 
 -- Enable invisible characters
 opt.listchars = {space = "·", tab = ">-"}
