@@ -1,5 +1,13 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
+-- Clone packer repo if not present
+local fn = vim.fn
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap =
+    fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+end
+
 function map(mode, lhs, rhs, opts)
   local options = {noremap = true, silent = true}
   if opts then
@@ -275,5 +283,8 @@ return require("packer").startup(
         map("n", "[p", ":ALEPrevious<CR>")
       end
     }
+    if packer_bootstrap then
+      require("packer").sync()
+    end
   end
 )
