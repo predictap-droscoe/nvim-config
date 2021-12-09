@@ -22,7 +22,12 @@ return require("packer").startup(
     use "wbthomason/packer.nvim"
 
     -- Nerdtree
-    use "scrooloose/nerdtree"
+    use {
+      "scrooloose/nerdtree",
+      config = function()
+        -- vim.g.NERDTreeWinSize = 60
+      end
+    }
     use "jistr/vim-nerdtree-tabs"
     use "Xuyuanp/nerdtree-git-plugin"
     use "PhilRunninger/nerdtree-visual-selection"
@@ -42,6 +47,13 @@ return require("packer").startup(
     }
     use "jiangmiao/auto-pairs"
     use "airblade/vim-gitgutter"
+    use {
+      "rrethy/vim-hexokinase",
+      run = "make hexokinase",
+      config = function()
+        map("n", "<leader>ct", ":HexokinaseToggle<cr>")
+      end
+    }
 
     -- fuzzy finding
     use {

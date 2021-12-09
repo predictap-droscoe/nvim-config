@@ -62,6 +62,12 @@ opt.spellfile = fn.stdpath("config") .. "/spell/en.utf-8.add"
 opt.undofile = true
 opt.undodir = fn.stdpath("config") .. "/undo"
 
+cmd(
+  [[
+set termguicolors
+let g:Hexokinase_optInPatterns = ['full_hex','triple_hex','rgb','rgba','hsl','hsla','colour_names']
+]]
+)
 cmd("highlight ExtraWhitespace ctermbg=red guibg=red")
 cmd("match ExtraWhitespace /\\s\\+$/")
 
