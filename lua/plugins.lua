@@ -200,12 +200,12 @@ return require("packer").startup(
       "mhartington/formatter.nvim",
       config = function()
         local tsopts = {
-          -- prettier
+          -- eslint
           function()
             return {
-              exe = "npx prettier",
-              args = {"--stdin-filepath", vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)), "--single-quote"},
-              stdin = true
+              exe = "eslint_d",
+              args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
+              stdin = false
             }
           end
         }
@@ -267,35 +267,14 @@ return require("packer").startup(
       as = "hop",
       config = function()
         require "hop".setup {keys = "etovxqpdygfblzhckisuran"}
-        map("n", "<leader>hw", ":HopWord<CR>")
-        map("n", "<leader>hl", ":HopLine<CR>")
+        map("n", "<leader>sw", ":HopWord<CR>")
+        map("n", "<leader>sl", ":HopLine<CR>")
+
         map("n", "<leader>hc", ":HopChar1<CR>")
         map("n", "<leader>hb", ":HopChar2<CR>")
       end
     }
 
-    use {
-      "dense-analysis/ale",
-      config = function()
-        es_fixers = {"prettier", "eslint"}
-        vim.g["ale_fixers"] = {
-          javascript = es_fixers,
-          javascriptreact = es_fixers,
-          typescript = es_fixers,
-          typescriptreact = es_fixers,
-          python = {"black"}
-        }
-        vim.g["ale_linters_ignore"] = {
-          javascript = {"tsserver", "jshint"},
-          javascriptreact = {"tsserver", "jshint"},
-          python = {"pylint"},
-          json = {"eslint"}
-        }
-        vim.g["ale_fix_on_save"] = 1
-        map("n", "]p", ":ALENext<CR>")
-        map("n", "[p", ":ALEPrevious<CR>")
-      end
-    }
     if packer_bootstrap then
       require("packer").sync()
     end
