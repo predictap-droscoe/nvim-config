@@ -101,7 +101,12 @@ return require("packer").startup(
 
     use {
       "neovim/nvim-lspconfig",
-      requires = "hrsh7th/cmp-nvim-lsp",
+      requires = {
+        "hrsh7th/cmp-nvim-lsp",
+        "jose-elias-alvarez/nvim-lsp-ts-utils",
+        "jose-elias-alvarez/null-ls.nvim",
+        "nvim-lua/plenary.nvim"
+      },
       config = function()
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
@@ -113,13 +118,13 @@ return require("packer").startup(
         map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
         map("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
         map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
-        map("n", "<leader>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
-        map("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
-        map("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
+        map("n", "<leader>e", "<cmd>lua vim.diagnostic.show_line_diagnostics()<CR>")
+        map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>")
+        map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>")
         map("n", "<leader>lr", "<cmd>LspRestart<CR>")
 
         local lspconfig = require("lspconfig")
-        local servers = {"pyright", "rust_analyzer", "tsserver", "tflint", "dockerls"}
+        local servers = {"pyright", "rust_analyzer", "eslint", "tflint", "dockerls"}
         local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
         capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -132,9 +137,53 @@ return require("packer").startup(
           }
         end
 
-        lspconfig.html.setup {
+        lspconfig.eslint.setup {
           capabilities = capabilities,
-          on_attach = on_attach
+          flags = {
+            debounce_text_changes = 150,
+            settings = {
+              packageManager = "yarn",
+              workingDirectory = {
+                mode = "auto"
+              }
+            }
+          }
+        }
+
+        lspconfig.tsserver.setup {
+          capabilities = capabilities,
+          flags = {
+            debounce_text_changes = 150
+          },
+          on_attach = function(client, bufnr)
+            client.resolved_capabilities.document_formatting = false
+            client.resolved_capabilities.document_range_formatting = false
+            local ts_utils = require("nvim-lsp-ts-utils")
+            ts_utils.setup(
+              {
+                debug = true,
+                eslint_bin = "eslint_d",
+                eslint_enable_diagnostics = false,
+                eslint_enable_code_actions = true,
+                enable_formatting = true,
+                formatter = "eslint_d"
+              }
+            )
+            ts_utils.setup_client(client)
+          end
+        }
+
+        lspconfig.html.setup {
+          capabilities = capabilities
+        }
+        require("null-ls").config({})
+        lspconfig["null-ls"].setup {
+          debug = True,
+          on_attach = function(client, bufnr)
+            if client.resolved_capabilities.document_formatting then
+              vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+            end
+          end
         }
       end
     }
@@ -199,16 +248,6 @@ return require("packer").startup(
     use {
       "mhartington/formatter.nvim",
       config = function()
-        local tsopts = {
-          -- eslint
-          function()
-            return {
-              exe = "eslint_d",
-              args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
-              stdin = false
-            }
-          end
-        }
         require("formatter").setup(
           {
             filetype = {
@@ -241,11 +280,7 @@ return require("packer").startup(
                     stdin = true
                   }
                 end
-              },
-              javascript = tsopts,
-              javascriptreact = tsopts,
-              typescript = tsopts,
-              typescriptreact = tsopts
+              }
             }
           }
         )
@@ -254,7 +289,7 @@ return require("packer").startup(
           [[
           augroup FormatAutogroup
             autocmd!
-            autocmd BufWritePost *.ts,*.tsx,*.jsx,*.js,*.rs,*.lua FormatWrite
+            autocmd BufWritePost *.sh,*.rs,*.lua FormatWrite
           augroup END
         ]],
           true
