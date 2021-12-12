@@ -255,6 +255,16 @@ return require("packer").startup(
         require("formatter").setup(
           {
             filetype = {
+              python = {
+                -- Configuration for psf/black
+                function()
+                  return {
+                    exe = "black", -- this should be available on your $PATH
+                    args = {"-"},
+                    stdin = true
+                  }
+                end
+              },
               lua = {
                 -- luafmt
                 function()
@@ -293,7 +303,7 @@ return require("packer").startup(
           [[
           augroup FormatAutogroup
             autocmd!
-            autocmd BufWritePost *.sh,*.rs,*.lua FormatWrite
+            autocmd BufWritePost *.py,*.sh,*.rs,*.lua FormatWrite
           augroup END
         ]],
           true
