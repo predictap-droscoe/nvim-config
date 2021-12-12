@@ -164,7 +164,9 @@ return require("packer").startup(
                 debug = true,
                 eslint_bin = "eslint_d",
                 eslint_enable_diagnostics = false,
-                eslint_enable_code_actions = true,
+                eslint_enable_code_actions = false,
+                update_imports_on_move = true,
+                require_confirmation_on_move = true,
                 enable_formatting = true,
                 formatter = "eslint_d"
               }
