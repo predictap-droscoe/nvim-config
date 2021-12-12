@@ -172,6 +172,8 @@ return require("packer").startup(
               }
             )
             ts_utils.setup_client(client)
+            map("n", "<leader>ia", "<cmd>TSLspImportAll<cr>")
+            map("n", "<leader>ic", "<cmd>TSLspImportCurrent<cr>")
           end
         }
 
