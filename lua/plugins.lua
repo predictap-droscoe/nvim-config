@@ -25,7 +25,7 @@ return require("packer").startup(
     use {
       "scrooloose/nerdtree",
       config = function()
-        -- vim.g.NERDTreeWinSize = 60
+        vim.g["NERDTreeWinSize"] = 60
       end
     }
     use "jistr/vim-nerdtree-tabs"
@@ -185,7 +185,7 @@ return require("packer").startup(
           debug = True,
           on_attach = function(client, bufnr)
             if client.resolved_capabilities.document_formatting then
-              vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+              vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
             end
           end
         }

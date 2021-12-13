@@ -57,8 +57,8 @@ cmd("nmap ; :")
 map("n", "<leader>nt", ":NERDTreeToggle<CR>")
 map("n", "<leader>nf", ":NERDTreeFind %<CR>")
 
-map("n", "<leader>p", ":FZF<CR>")
-map("n", "<leader>P", ":FZF!<CR>")
+map("n", "<leader>p", ":GFiles --exclude-standard --others --cached<CR>")
+map("n", "<leader>P", ":GFiles! --exclude-standard --others --cached<CR>")
 
 -- easy search/replace
 map("n", "<leader>sr", ":%s//gc<left><left><left>")
