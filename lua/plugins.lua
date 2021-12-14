@@ -104,7 +104,6 @@ return require("packer").startup(
       requires = {
         "hrsh7th/cmp-nvim-lsp",
         "jose-elias-alvarez/nvim-lsp-ts-utils",
-        "jose-elias-alvarez/null-ls.nvim",
         "nvim-lua/plenary.nvim"
       },
       config = function()
@@ -124,7 +123,7 @@ return require("packer").startup(
         map("n", "<leader>lr", "<cmd>LspRestart<CR>")
 
         local lspconfig = require("lspconfig")
-        local servers = {"pyright", "rust_analyzer", "eslint", "tflint", "dockerls"}
+        local servers = {"pyright", "rust_analyzer", "tflint", "dockerls"}
         local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
         capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -147,7 +146,12 @@ return require("packer").startup(
                 mode = "auto"
               }
             }
-          }
+          },
+          on_attach = function()
+            vim.cmd([[
+            autocmd BufWritePre <buffer> :EslintFixAll
+            ]])
+          end
         }
 
         lspconfig.tsserver.setup {
@@ -168,7 +172,14 @@ return require("packer").startup(
                 update_imports_on_move = true,
                 require_confirmation_on_move = true,
                 enable_formatting = true,
-                formatter = "eslint_d"
+                formatter = "eslint_d",
+                formatter_args = {
+                  "--fix-to-stdout",
+                  "--stdin",
+                  "--stdin-filename",
+                  "$FILENAME"
+                },
+                format_on_save = true
               }
             )
             ts_utils.setup_client(client)
@@ -180,17 +191,9 @@ return require("packer").startup(
         lspconfig.html.setup {
           capabilities = capabilities
         }
-        require("null-ls").config({})
-        lspconfig["null-ls"].setup {
-          debug = True,
-          on_attach = function(client, bufnr)
-            if client.resolved_capabilities.document_formatting then
-              vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 5000)")
-            end
-          end
-        }
       end
     }
+
     use {
       "hrsh7th/nvim-cmp",
       requires = {"L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-buffer"},
@@ -321,6 +324,15 @@ return require("packer").startup(
 
         map("n", "<leader>hc", ":HopChar1<CR>")
         map("n", "<leader>hb", ":HopChar2<CR>")
+      end
+    }
+
+    use {
+      "vim-test/vim-test",
+      config = function()
+        map("n", "<leader>tf", ":TestFile<cr>")
+        map("n", "<leader>tc", ":TestNearest<cr>")
+        map("n", "<leader>tl", ":TestLast<cr>")
       end
     }
 
