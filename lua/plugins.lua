@@ -46,6 +46,18 @@ return require("packer").startup(
       end
     }
     use "jiangmiao/auto-pairs"
+    use {
+      "alvan/vim-closetag",
+      config = function()
+        vim.g["closetag_filenames"] = "*.html,*.xhtml,*.phtml,*.php,*.jsx"
+        vim.g["closetag_regions"] = {
+          ["typescript.tsx"] = "jsxRegion,tsxRegion",
+          ["javascript.jsx"] = "jsxRegion",
+          typescriptreact = "jsxRegion,tsxRegion",
+          javascriptreact = "jsxRegion"
+        }
+      end
+    }
     use "airblade/vim-gitgutter"
     use {
       "rrethy/vim-hexokinase",
