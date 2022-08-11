@@ -21,6 +21,8 @@ return require("packer").startup(
     -- Packer can manage itself
     use "wbthomason/packer.nvim"
 
+    use "towolf/vim-helm"
+
     -- Nerdtree
     use {
       "scrooloose/nerdtree",
@@ -49,13 +51,7 @@ return require("packer").startup(
     use {
       "alvan/vim-closetag",
       config = function()
-        vim.g["closetag_filenames"] = "*.html,*.xhtml,*.phtml,*.php,*.jsx"
-        vim.g["closetag_regions"] = {
-          ["typescript.tsx"] = "jsxRegion,tsxRegion",
-          ["javascript.jsx"] = "jsxRegion",
-          typescriptreact = "jsxRegion,tsxRegion",
-          javascriptreact = "jsxRegion"
-        }
+        vim.g["closetag_filenames"] = "*.html,*.xhtml,*.phtml,*.php,*.jsx,*.tsx"
       end
     }
     use "airblade/vim-gitgutter"
