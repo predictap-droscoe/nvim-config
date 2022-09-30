@@ -43,8 +43,9 @@ return require("packer").startup(
       requires = {"tpope/vim-rhubarb"},
       config = function()
         map("n", "<leader>gb", ":Git blame<CR>")
-        map("n", "<leader>go", ":Gbrowse<CR>")
-        map("v", "<leader>go", ":Gbrowse<CR>")
+        map("n", "<leader>go", ":GBrowse<CR>")
+        map("n", "<leader>gl", "v:GBrowse<CR>")
+        map("v", "<leader>go", ":GBrowse<CR>")
       end
     }
     use "jiangmiao/auto-pairs"
