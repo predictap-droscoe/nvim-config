@@ -343,6 +343,10 @@ return require("packer").startup(
         map("n", "<leader>tf", ":TestFile<cr>")
         map("n", "<leader>tc", ":TestNearest<cr>")
         map("n", "<leader>tl", ":TestLast<cr>")
+        map("n", "<leader>tv", ":TestVisit<cr>")
+        vim.api.nvim_exec([[
+          let test#strategy = "neovim"
+        ]], true)
       end
     }
 
