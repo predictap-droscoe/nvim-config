@@ -203,7 +203,11 @@ return require("packer").startup(
 
         lspconfig.denols.setup {
           capabilities = capabilities,
-          root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")
+          root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+          init_options = {
+            lint = true,
+            config = "./deno.json"
+          }
         }
         vim.g.markdown_fenced_languages = {
           "ts=typescript"
