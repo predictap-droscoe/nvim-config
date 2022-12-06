@@ -122,7 +122,7 @@ return require("packer").startup(
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
         map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-        map("n", "gK", "<cmd>lua vim.lsp.buf.hover()<CR>")
+        map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
         map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
         map("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
         map("n", "<leader>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
