@@ -116,7 +116,8 @@ return require("packer").startup(
       requires = {
         "hrsh7th/cmp-nvim-lsp",
         "jose-elias-alvarez/nvim-lsp-ts-utils",
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
+        "marilari88/twoslash-queries.nvim"
       },
       config = function()
         -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -175,6 +176,7 @@ return require("packer").startup(
             client.resolved_capabilities.document_formatting = false
             client.resolved_capabilities.document_range_formatting = false
             local ts_utils = require("nvim-lsp-ts-utils")
+            require("twoslash-queries").attach(client, bufnr)
             ts_utils.setup(
               {
                 debug = true,
