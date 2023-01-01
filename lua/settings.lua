@@ -88,9 +88,11 @@ filetype on
 filetype plugin on
 filetype indent on
 
-autocmd FileType make set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0
+
+au BufNewFile,BufRead *.markdown,*.mdown,*.mkd,*.mkdn,*.mdwn,*.md  set ft=markdown
 ]]
 )
+-- autocmd FileType make set noexpandtab tabstop=8 shiftwidth=8 softtabstop=0
 
 -- find/replace previews
 opt.inccommand = "split"
