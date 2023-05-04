@@ -70,6 +70,7 @@ return require("packer").startup(
         map("v", "<leader>go", ":GBrowse<CR>")
       end
     }
+    use "maxmellon/vim-jsx-pretty"
     use "jiangmiao/auto-pairs"
     use {
       "alvan/vim-closetag",
@@ -78,13 +79,13 @@ return require("packer").startup(
       end
     }
     use "airblade/vim-gitgutter"
-    use {
-      "rrethy/vim-hexokinase",
-      run = "make hexokinase",
-      config = function()
-        map("n", "<leader>ct", ":HexokinaseToggle<cr>")
-      end
-    }
+    -- use {
+    --   "rrethy/vim-hexokinase",
+    --   run = "make hexokinase",
+    --   config = function()
+    --     map("n", "<leader>ct", ":HexokinaseToggle<cr>")
+    --   end
+    -- }
 
     -- fuzzy finding
     use {
