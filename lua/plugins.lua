@@ -241,6 +241,13 @@ return require("packer").startup(
         }
       end
     }
+
+    use {
+      "rust-lang/rust.vim",
+      config = function()
+        vim.g.rustfmt_autosave = 1
+      end
+    }
     use {
       "simrat39/rust-tools.nvim",
       config = function()
