@@ -157,7 +157,7 @@ return require("packer").startup(
         map("n", "<leader>lr", "<cmd>LspRestart<CR>")
 
         local lspconfig = require("lspconfig")
-        local servers = {"pyright", "rust_analyzer", "tflint", "dockerls"}
+        local servers = {"pyright", "tflint", "dockerls"}
         local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
         capabilities.textDocument.completion.completionItem.snippetSupport = true
 
@@ -326,16 +326,16 @@ return require("packer").startup(
                   }
                 end
               },
-              rust = {
-                -- Rustfmt
-                function()
-                  return {
-                    exe = "rustfmt",
-                    args = {"--emit=stdout"},
-                    stdin = true
-                  }
-                end
-              },
+              -- rust = {
+              --   -- Rustfmt
+              --   function()
+              --     return {
+              --       exe = "rustfmt",
+              --       args = {"--emit=stdout"},
+              --       stdin = true
+              --     }
+              --   end
+              -- },
               sh = {
                 -- Shell Script Formatter
                 function()
