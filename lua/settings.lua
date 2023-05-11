@@ -68,8 +68,10 @@ set termguicolors
 let g:Hexokinase_optInPatterns = ['full_hex','triple_hex','rgb','rgba','hsl','hsla','colour_names']
 ]]
 )
-cmd("highlight ExtraWhitespace ctermbg=red guibg=red")
-cmd("match ExtraWhitespace /\\s\\+$/")
+-- cmd("highlight ExtraWhitespace ctermbg=red guibg=red")
+-- cmd("match ExtraWhitespace /\\s\\+$/")
+-- cmd("autocmd TermEnter * highlight ExtraWhitespace none")
+-- cmd("autocmd TermLeave * highlight ExtraWhitespace ctermbg=red guibg=red")
 
 opt.mouse = "a"
 for i, c in ipairs({"<", ">", "h", "l", "[", "]"}) do
