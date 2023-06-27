@@ -332,6 +332,12 @@ return require("packer").startup(
           {
             filetype = {
               python = {
+                -- isort to sort imports
+                function()
+                  return {
+                    exe = "isort"
+                  }
+                end,
                 -- Configuration for psf/black
                 function()
                   return {
